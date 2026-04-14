@@ -1,0 +1,58 @@
+[
+  {
+    "id": "h-1",
+    "tipo": "hamburguer",
+    "nome": "Zap Smash Bacon",
+    "descricao": "Pão brioche selado na manteiga, dois smashs bovinos de 80g, duplo cheddar derretido e fatias crocantes de bacon premium.",
+    "preco": 32.90,
+    "imagem": "/smash_bacon.png"
+  },
+  {
+    "id": "h-2",
+    "tipo": "hamburguer",
+    "nome": "Classic ZapBurger",
+    "descricao": "O clássico imperdível. Blend especial de 160g, queijo prato, alface americana, tomate fresco, cebola roxa e molho da casa.",
+    "preco": 26.50,
+    "imagem": "/classic_burger.png"
+  },
+  {
+    "id": "h-3",
+    "tipo": "hamburguer",
+    "nome": "Chicken Zap Supremo",
+    "descricao": "Pão australiano, suculento filé de peito de frango empanado e super crocante, cream cheese, alface e molho picante doce.",
+    "preco": 28.00,
+    "imagem": "/chicken_supremo.png"
+  },
+  {
+    "id": "p-1",
+    "tipo": "porcao",
+    "nome": "Batata Rústica Zap",
+    "descricao": "Porção de batatas rústicas com casca, temperadas com páprica doce e alecrim. Acompanha maionese verde artesanal.",
+    "preco": 18.00,
+    "imagem": "/batata_rustica.png"
+  },
+  {
+    "id": "p-2",
+    "tipo": "porcao",
+    "nome": "Anéis de Cebola",
+    "descricao": "Porção com deliciosos anéis de cebola (Onion Rings) empanados e crocantes. Acompanha molho barbecue especial.",
+    "preco": 16.50,
+    "imagem": "/onion_rings.png"
+  },
+  {
+    "id": "b-1",
+    "tipo": "bebida",
+    "nome": "Refrigerante Cola 350ml",
+    "descricao": "Lata 350ml bem geladinha.",
+    "preco": 6.00,
+    "imagem": "/cola_can.png"
+  },
+  {
+    "id": "b-2",
+    "tipo": "bebida",
+    "nome": "Suco Natural de Laranja",
+    "descricao": "Suco de laranja natural de 400ml, espremido na hora, sem adição de água ou conservantes.",
+    "preco": 9.50,
+    "imagem": "/orange_juice.png"
+  }
+]
