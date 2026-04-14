@@ -2,47 +2,69 @@ import { useEffect, useState } from "react"
 import Header from "../components/Header"
 import CardCatalogo from "../components/CardCatalogo"
 import Carrinho from "../components/Carrinho"
+import ModalPersonalizar from "../components/ModalPersonalizar"
 
 export default function Home() {
     const [produtos, setProdutos] = useState([])
     const [erro, setErro] = useState("")
     const [carrinho, setCarrinho] = useState([])
     const [isCartOpen, setIsCartOpen] = useState(false)
+    const [produtoPersonalizando, setProdutoPersonalizando] = useState(null)
 
-    function adicionarProduto(produtoSelecionado) {
-        // Correção: Verificar se o item já existe no CARRINHO, e não na lista de produtos inteira.
-        const itemExiste = carrinho.find((item) => item.id === produtoSelecionado.id)
+    // Abre o modal de personalização ao clicar em "Adicionar +"
+    function abrirPersonalizacao(produto) {
+        setProdutoPersonalizando(produto)
+    }
+
+    // Recebe o produto personalizado do modal e adiciona ao carrinho
+    function confirmarPersonalizacao(produtoPersonalizado) {
+        // Cada item personalizado é único no carrinho (diferentes complementos = item diferente)
+        // Gera um ID único baseado no produto + complementos + removidos + observação
+        const chavePersonalizacao = [
+            produtoPersonalizado.id,
+            produtoPersonalizado.complementos.map(c => c.id).sort().join(","),
+            produtoPersonalizado.removidos.map(r => r.id).sort().join(","),
+            produtoPersonalizado.observacao,
+        ].join("|");
+
+        const itemExiste = carrinho.find((item) => item.chavePersonalizacao === chavePersonalizacao);
 
         if (itemExiste) {
             const carrinhoAtualizado = carrinho.map((item) =>
-            item.id === produtoSelecionado.id
-            ? { ...item, quantidade: item.quantidade + 1 }
-            : item
-        )
-        setCarrinho(carrinhoAtualizado)
+                item.chavePersonalizacao === chavePersonalizacao
+                    ? { ...item, quantidade: item.quantidade + produtoPersonalizado.quantidade }
+                    : item
+            );
+            setCarrinho(carrinhoAtualizado);
         } else {
-            setCarrinho([...carrinho, { ...produtoSelecionado, quantidade: 1 }])
+            setCarrinho([...carrinho, {
+                ...produtoPersonalizado,
+                chavePersonalizacao,
+                preco: produtoPersonalizado.precoFinal,
+            }]);
         }
+
+        setProdutoPersonalizando(null);
     }
 
-    function aumentarQuantidade(id) {
+    function aumentarQuantidade(chave) {
         setCarrinho(carrinho.map((item) =>
-            item.id === id
+            item.chavePersonalizacao === chave
                 ? { ...item, quantidade: item.quantidade + 1 }
                 : item
         ))
     }
 
-    function diminuirQuantidade(id) {
+    function diminuirQuantidade(chave) {
         setCarrinho(carrinho.map((item) =>
-            item.id === id
+            item.chavePersonalizacao === chave
                 ? { ...item, quantidade: Math.max(1, item.quantidade - 1) }
                 : item
         ))
     }
 
-    function removerItem(id) {
-        setCarrinho(carrinho.filter((item) => item.id !== id))
+    function removerItem(chave) {
+        setCarrinho(carrinho.filter((item) => item.chavePersonalizacao !== chave))
     }
 
     useEffect(() => {
@@ -139,10 +161,19 @@ export default function Home() {
                     <CardCatalogo 
                       key={produto.id} 
                       produto={produto} 
-                      onAdicionar={() => adicionarProduto(produto)} 
+                      onAdicionar={() => abrirPersonalizacao(produto)} 
                     />
                 ))}
             </main>
+
+            {/* Modal de personalização */}
+            {produtoPersonalizando && (
+                <ModalPersonalizar
+                    produto={produtoPersonalizando}
+                    onConfirmar={confirmarPersonalizacao}
+                    onFechar={() => setProdutoPersonalizando(null)}
+                />
+            )}
 
             {isCartOpen && (
                 <Carrinho 
